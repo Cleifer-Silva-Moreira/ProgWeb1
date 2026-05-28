@@ -1,0 +1,41 @@
+@model Disciplina
+
+@{
+    ViewData["Title"] = "Editar disciplina";
+}
+
+<h1>Editar disciplina</h1>
+
+<form asp-action="Edit" method="post" class="row g-3">
+    <input type="hidden" asp-for="Id" />
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+    <div class="col-md-6">
+        <label asp-for="Nome" class="form-label"></label>
+        <input asp-for="Nome" class="form-control" />
+        <span asp-validation-for="Nome" class="text-danger"></span>
+    </div>
+    <div class="col-md-3">
+        <label asp-for="Periodo" class="form-label"></label>
+        <select asp-for="Periodo" asp-items="ViewBag.Periodos" class="form-select">
+            <option value="">Selecione o periodo</option>
+        </select>
+        <span asp-validation-for="Periodo" class="text-danger"></span>
+    </div>
+    <div class="col-md-3">
+        <label asp-for="CargaHoraria" class="form-label">Carga horaria</label>
+        <input asp-for="CargaHoraria" type="number" min="1" class="form-control" />
+        <span asp-validation-for="CargaHoraria" class="text-danger"></span>
+    </div>
+    <div class="col-md-6">
+        <label asp-for="ProfessorId" class="form-label">Professor</label>
+        <select asp-for="ProfessorId" asp-items="ViewBag.Professores" class="form-select">
+            <option value="">Selecione</option>
+        </select>
+    </div>
+
+    <div class="col-12">
+        <button type="submit" class="btn btn-success">Salvar</button>
+        <a asp-action="Index" class="btn btn-secondary">Voltar</a>
+    </div>
+</form>

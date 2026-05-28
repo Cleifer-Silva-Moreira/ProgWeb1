@@ -1,0 +1,47 @@
+@model DisciplinaViewModel
+
+@{
+    ViewData["Title"] = "Nova disciplina";
+}
+
+<h1>Nova disciplina</h1>
+
+<form asp-action="Create" method="post" class="row g-3">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+    <div class="col-md-6">
+        <label asp-for="Nome" class="form-label"></label>
+        <input asp-for="Nome" class="form-control" />
+        <span asp-validation-for="Nome" class="text-danger"></span>
+    </div>
+
+    <div class="col-md-3">
+        <label asp-for="Periodo" class="form-label"></label>
+        <select asp-for="Periodo" asp-items="ViewBag.Periodos" class="form-select">
+            <option value="">Selecione o periodo</option>
+        </select>
+        <span asp-validation-for="Periodo" class="text-danger"></span>
+    </div>
+
+    <div class="col-md-3">
+        <label asp-for="CargaHoraria" class="form-label">Carga horaria</label>
+        <input asp-for="CargaHoraria" type="number" min="1" class="form-control" />
+        <span asp-validation-for="CargaHoraria" class="text-danger"></span>
+    </div>
+
+    <div class="col-md-6">
+        <label asp-for="ProfessorId" class="form-label">Professor</label>
+        <select asp-for="ProfessorId" asp-items="Model.Professores" class="form-select">
+            <option value="">Selecione um professor</option>
+        </select>
+    </div>
+
+    <div class="col-12">
+        <button type="submit" class="btn btn-success">Cadastrar</button>
+        <a asp-action="Index" class="btn btn-secondary">Voltar</a>
+    </div>
+</form>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

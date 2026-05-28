@@ -1,0 +1,38 @@
+@model Nota
+
+@{
+    ViewData["Title"] = "Editar nota";
+}
+
+<h1>Editar nota</h1>
+
+<form asp-action="Edit" method="post" class="row g-3">
+    <input type="hidden" asp-for="Id" />
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+    <div class="col-md-6">
+        <label asp-for="AlunoId" class="form-label">Aluno</label>
+        <select asp-for="AlunoId" asp-items="ViewBag.Alunos" class="form-select"></select>
+        <span asp-validation-for="AlunoId" class="text-danger"></span>
+    </div>
+    <div class="col-md-6">
+        <label asp-for="DisciplinaId" class="form-label">Disciplina</label>
+        <select asp-for="DisciplinaId" asp-items="ViewBag.Disciplinas" class="form-select"></select>
+        <span asp-validation-for="DisciplinaId" class="text-danger"></span>
+    </div>
+    <div class="col-md-8">
+        <label asp-for="Descricao" class="form-label"></label>
+        <input asp-for="Descricao" class="form-control" />
+        <span asp-validation-for="Descricao" class="text-danger"></span>
+    </div>
+    <div class="col-md-4">
+        <label asp-for="Valor" class="form-label">Nota</label>
+        <input asp-for="Valor" type="number" min="0" max="10" step="0.01" class="form-control" />
+        <span asp-validation-for="Valor" class="text-danger"></span>
+    </div>
+
+    <div class="col-12">
+        <button type="submit" class="btn btn-success">Salvar</button>
+        <a asp-action="Index" class="btn btn-secondary">Voltar</a>
+    </div>
+</form>

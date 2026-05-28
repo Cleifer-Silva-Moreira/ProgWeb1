@@ -1,0 +1,46 @@
+@model IEnumerable<Professor>
+
+@{
+    ViewData["Title"] = "Professores";
+}
+
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <h1>Professores</h1>
+    <a asp-action="Create" class="btn btn-success">Novo professor</a>
+</div>
+
+<table class="table table-striped table-hover border">
+    <thead class="table-dark">
+        <tr>
+            <th>Nome</th>
+            <th>E-mail</th>
+            <th>SIAP</th>
+            <th>Area</th>
+            <th class="text-center">Ações</th>
+        </tr>
+    </thead>
+    <tbody>
+        @if (Model.Any())
+        {
+            foreach (var professor in Model)
+            {
+                <tr>
+                    <td>@professor.Nome @professor.Sobrenome</td>
+                    <td>@professor.Email</td>
+                    <td>@professor.Siap</td>
+                    <td>@professor.Area</td>
+                    <td class="text-center">
+                        <a asp-action="Edit" asp-route-id="@professor.Id" class="btn btn-sm btn-warning">Editar</a>
+                        <a asp-action="Delete" asp-route-id="@professor.Id" class="btn btn-sm btn-danger">Excluir</a>
+                    </td>
+                </tr>
+            }
+        }
+        else
+        {
+            <tr>
+                <td colspan="5" class="text-center text-muted">Nenhum professor encontrado.</td>
+            </tr>
+        }
+    </tbody>
+</table>

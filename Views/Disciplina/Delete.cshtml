@@ -1,0 +1,17 @@
+@model Disciplina
+
+@{
+    ViewData["Title"] = "Excluir disciplina";
+}
+
+<h1>Excluir disciplina</h1>
+
+<div class="alert alert-warning">
+    Deseja excluir a disciplina <strong>@Model.Nome</strong>?
+</div>
+
+<form asp-action="Delete" method="post">
+    <input type="hidden" asp-for="Id" />
+    <button type="submit" class="btn btn-danger">Excluir</button>
+    <a asp-action="Index" class="btn btn-secondary">Cancelar</a>
+</form>

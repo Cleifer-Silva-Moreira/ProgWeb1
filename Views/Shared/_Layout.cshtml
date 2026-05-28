@@ -1,0 +1,113 @@
+@using Microsoft.AspNetCore.Http
+@{
+    var usuarioLogado = Context.Session.GetString("Usuario");
+    var estaLogado = !string.IsNullOrEmpty(usuarioLogado);
+    var controllerAtual = ViewContext.RouteData.Values["controller"]?.ToString();
+    var estaNaAreaPublica =
+        string.Equals(controllerAtual, "Account", StringComparison.OrdinalIgnoreCase) ||
+        string.Equals(controllerAtual, "Home", StringComparison.OrdinalIgnoreCase);
+    var mostrarAreaInterna = estaLogado && !estaNaAreaPublica;
+}
+
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - SysAC</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+</head>
+<body>
+    <header>
+        <div class="topbar">
+            <div class="container-fluid">
+                <span>Instituto Federal de Mato Grosso</span>
+                <span class="topbar-divider">Sistema Academico</span>
+            </div>
+        </div>
+        <nav class="navbar navbar-expand-sm navbar-dark app-navbar">
+            <div class="container-fluid">
+                <a class="navbar-brand brand-mark" asp-controller="@(mostrarAreaInterna ? "Aluno" : "Account")" asp-action="@(mostrarAreaInterna ? "Index" : "Login")">
+                    <span class="brand-symbol">IF</span>
+                    <span>
+                        <strong>Sistema Academico</strong>
+                        <small>Academico IFMT</small>
+                    </span>
+                </a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse"
+                        aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Alternar navegacao">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
+                    <ul class="navbar-nav flex-grow-1">
+                        @if (mostrarAreaInterna)
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link" asp-controller="Aluno" asp-action="Index">Alunos</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" asp-controller="Professor" asp-action="Index">Professores</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" asp-controller="Disciplina" asp-action="Index">Disciplinas</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" asp-controller="Nota" asp-action="Index">Notas</a>
+                            </li>
+                        }
+                    </ul>
+
+                    <ul class="navbar-nav">
+                        @if (mostrarAreaInterna)
+                        {
+                            <li class="nav-item d-flex align-items-center me-2 user-chip">
+                                @usuarioLogado
+                            </li>
+                            <li class="nav-item">
+                                <form asp-controller="Account" asp-action="Logout" method="post" class="d-inline">
+                                    @Html.AntiForgeryToken()
+                                    <button type="submit" class="btn btn-link nav-link">Sair</button>
+                                </form>
+                            </li>
+                        }
+                        else
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link" asp-controller="Account" asp-action="Login">Login</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" asp-controller="Account" asp-action="Cadastrar">Cadastrar</a>
+                            </li>
+                        }
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <div class="container page-shell">
+        <main role="main" class="pb-3">
+            @if (TempData["Mensagem"] != null)
+            {
+                <div class="alert alert-@TempData["Tipo"]">
+                    @TempData["Mensagem"]
+                </div>
+            }
+
+            @RenderBody()
+        </main>
+    </div>
+
+    <footer class="footer py-3">
+        <div class="container">
+            &copy; 2026 - Sistema Academico
+        </div>
+    </footer>
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

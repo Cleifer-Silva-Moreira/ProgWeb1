@@ -1,0 +1,17 @@
+@model Nota
+
+@{
+    ViewData["Title"] = "Excluir nota";
+}
+
+<h1>Excluir nota</h1>
+
+<div class="alert alert-warning">
+    Deseja excluir a nota de <strong>@Model.Aluno?.Nome</strong> em <strong>@Model.Disciplina?.Nome</strong>?
+</div>
+
+<form asp-action="Delete" method="post">
+    <input type="hidden" asp-for="Id" />
+    <button type="submit" class="btn btn-danger">Excluir</button>
+    <a asp-action="Index" class="btn btn-secondary">Cancelar</a>
+</form>
